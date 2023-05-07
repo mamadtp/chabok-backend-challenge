@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, UseGuards, Request } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { Response } from 'express';
+import { Request as RequestExpress, Response } from 'express';
 import { User } from 'src/user/entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { GetUser } from './decorators/get-user.decorator';
@@ -21,6 +21,7 @@ export class AuthController {
       .cookie('access_token', access_token, {
         httpOnly: true,
         sameSite: 'lax',
+        secure: true,
         expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
       })
       .send({ status: 'ok' });
@@ -33,7 +34,12 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
-    res.cookie('access_token', '').send({ status: 'ok', message: 'log out successfully' });
+  logoutPost(@Request() req: RequestExpress, @Res({ passthrough: true }) res: Response) {
+    return this.authService.logout(req, res);
+  }
+
+  @Get('logout')
+  logoutGet(@Request() req: RequestExpress, @Res({ passthrough: true }) res: Response) {
+    return this.authService.logout(req, res);
   }
 }

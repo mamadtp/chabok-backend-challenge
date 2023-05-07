@@ -8,6 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
 
+  app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -32,9 +34,9 @@ async function bootstrap() {
 
   const PORT = +process.env.PORT || 3000;
 
-  const HOST = process.env.HOST || '127.0.0.1';
+  const HOST = process.env.HOST || 'localhost';
 
-  await app.listen(PORT, HOST);
+  await app.listen(PORT);
   logger.log(`🚀 Chabok Backend API started on ${HOST}:${PORT}`);
 }
 bootstrap();
