@@ -21,7 +21,7 @@ export class AuthController {
       .cookie('access_token', access_token, {
         httpOnly: true,
         sameSite: 'lax',
-        secure: true,
+        secure: false, //TODO: set true for production
         expires: new Date(Date.now() + 1 * 24 * 60 * 1000),
       })
       .send({ status: 'ok' });
