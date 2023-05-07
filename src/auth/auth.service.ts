@@ -2,12 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
-  login(loginAuthDto: LoginAuthDto) {
-    return 'This action adds a new auth';
+  async login(user: User) {
+    const payload = { username: user.username, userId: user.userId };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   profile() {
