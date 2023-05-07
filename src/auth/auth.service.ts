@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { LoginAuthDto } from './dto/login-auth.dto';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
@@ -14,8 +13,8 @@ export class AuthService {
     };
   }
 
-  profile() {
-    return `This action returns all auth`;
+  profile(user: User) {
+    return user;
   }
 
   logout(id: any) {

@@ -6,6 +6,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Request, Response } from 'express';
 import { User } from 'src/user/entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { GetUser } from './decorators/get-user.decorator';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -27,8 +28,8 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  profile() {
-    return this.authService.profile();
+  profile(@GetUser() user: User) {
+    return this.authService.profile(user);
   }
 
   @Post('logout')
