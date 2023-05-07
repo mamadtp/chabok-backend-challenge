@@ -15,8 +15,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req: Request, @Res({ passthrough: true }) res: Response): Promise<void> {
-    const { access_token } = await this.authService.login(req.user as User);
+  async login(@Body() loginAuthDto: LoginAuthDto, @Res({ passthrough: true }) res: Response): Promise<void> {
+    const { access_token } = await this.authService.login(loginAuthDto);
     res
       .cookie('access_token', access_token, {
         httpOnly: true,
