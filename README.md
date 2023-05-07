@@ -10,6 +10,8 @@ Before starting, make sure you have at least those components on your workstatio
 
 - An up-to-date release of [NodeJS](https://nodejs.org/) and NPM
 
+[Docker](https://www.docker.com/) may also be useful for advanced testing and image building, although it is not required for development.
+
 ### 1.2 Project configuration
 
 Start by cloning this project on your workstation.
@@ -59,6 +61,12 @@ npm run start:dev
 
 # Transpile the TypeScript files
 npm run build
+
+# Internal command used during the Docker build stage
+npm run build:docker
+
+# Internal command used during the Docker start
+npm run start:docker
 
 
 # Lint the project files using TSLint
