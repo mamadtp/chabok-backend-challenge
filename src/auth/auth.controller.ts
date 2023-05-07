@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { User } from 'src/user/entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { GetUser } from './decorators/get-user.decorator';
@@ -33,7 +33,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout(@Body() createAuthDto: LoginAuthDto) {
-    return this.authService.logout(createAuthDto);
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('access_token', '').send({ status: 'ok', message: 'log out successfully' });
   }
 }
